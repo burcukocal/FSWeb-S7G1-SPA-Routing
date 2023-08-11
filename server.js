@@ -7,6 +7,20 @@ const app = express();
 app.use(bodyParser.json());
 app.use(CORS());
 
+const port = process.env.PORT || 5000;
+
+// Üretim dosyalarını sunmak için static dosya servisi eklemek
+app.use(express.static(path.join(__dirname, 'my-react-app/build')));
+
+// Tüm yolları index.html'e yönlendir
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'my-react-app/build', 'index.html'));
+});
+
+app.listen(port, () => {
+  console.log(`Server ${port} numaralı portta çalışıyor.`);
+});
+
 const movies = [
 	{
 		id: 0,
